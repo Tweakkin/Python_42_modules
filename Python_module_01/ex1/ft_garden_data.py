@@ -8,8 +8,10 @@ a main execution block to demonstrate the creation and display of
 several plant instances.
 """
 
+
 class Plant:
-	"""
+
+    """
     A class used to represent a Plant in the community garden.
 
     Attributes:
@@ -18,19 +20,20 @@ class Plant:
         age : The age of the plant in days.
     """
 
-	def __init__(self, name, height, age):
-		"""
+    def __init__(self, name, height, age):
+        """
         Initializes a new instance of the Plant class.
         Args(Same args):
             name : The name of the plant.
             height : The height of the plant in cm.
             age : The age of the plant in days.
         """
-		self.name = name
-		self.height = height
-		self.age = age
+        self.name = name
+        self.height = height
+        self.age = age
 
-# Creating Plant instances 
+
+# Creating Plant instances
 p1 = Plant("Rose", 25, 30)
 p2 = Plant("Tulip", 80, 45)
 p3 = Plant("Cactus", 15, 120)
