@@ -29,31 +29,33 @@ def test_water_error():
     """
     raise WaterError("Not enough water in the tank!")
 
-print("=== Custom Garden Errors Demo ===")
+def test_custom_errors():
+	print("=== Custom Garden Errors Demo ===")
 
-print("\nTesting PlantError...")
-try:
-    test_plant_error()
-except PlantError as e:
-    # Standard exception handling: Catching the exact error type.
-    print(f"Caught PlantError: {e}")
+	print("\nTesting PlantError...")
+	try:
+		test_plant_error()
+	except PlantError as e:
+		print(f"Caught PlantError: {e}")
 
-print("\nTesting WaterError...")
-try:
-    test_water_error()
-except WaterError as e:
-    print(f"Caught WaterError: {e}")
+	print("\nTesting WaterError...")
+	try:
+		test_water_error()
+	except WaterError as e:
+		print(f"Caught WaterError: {e}")
 
-print("\nTesting catching all garden errors...")
-try:
-    test_plant_error()
-except GardenError as e:
-# I used subtype polymorphism where specific child classes
-# like PlantError are treated as their general parent class, GardenError.
-    print(f"Caught a garden error: {e}")
-try:
-    test_water_error()
-except GardenError as e:
-    print(f"Caught a garden error: {e}")
+	print("\nTesting catching all garden errors...")
+	try:
+		test_plant_error()
+	except GardenError as e:
+	# I used subtype polymorphism where specific child classes
+	# like PlantError are treated as their general parent class, GardenError.
+		print(f"Caught a garden error: {e}")
+	try:
+		test_water_error()
+	except GardenError as e:
+		print(f"Caught a garden error: {e}")
 
-print("\nAll custom error types work correctly!")
+	print("\nAll custom error types work correctly!")
+
+test_custom_errors()
