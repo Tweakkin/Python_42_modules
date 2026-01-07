@@ -20,18 +20,19 @@ def water_plants(plant_list):
     Waters a list of plants. 
     It catches errors if a plant is invalid and always runs the cleanup code.
     """
-
-    try:
-	print("Opening watering system")
 	try:
+		print("Opening watering system")
 		for plant in plant_list:
 			# TRICK: We are not allowed to use 'raise', 'ValueError', or 'if'.
             # So we force a crash naturally.
             # Adding a string ("Watering ") to None causes a TypeError immediately.
             # This jumps straight to the except block.
-			print("Watering " + plant)
-	except:
-		print(f"Error: Cannot water {plant} - invalid plant!")
+			try :
+				print("Watering " + plant)
+			except:
+				print(f"Error: Cannot water {plant} - invalid plant!")
+	except TypeError:
+         print("Error: The plant list itself is invalid!")
 	finally:
 		print("Closing watering system (cleanup)")
 	
@@ -54,4 +55,4 @@ def test_watering_system():
 	water_plants(plant_list_2)
 	print("\nCleanup always happens, even with errors!")
 
-#test_watering_system()
+test_watering_system()
