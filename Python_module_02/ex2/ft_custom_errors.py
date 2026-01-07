@@ -58,4 +58,4 @@ def test_custom_errors():
 
 	print("\nAll custom error types work correctly!")
 
-test_custom_errors()
+#test_custom_errors()

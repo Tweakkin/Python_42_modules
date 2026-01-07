@@ -77,4 +77,4 @@ def test_error_types():
 	
 	print("\nAll error types tested successfully!")
 
-test_error_types()
+#test_error_types()

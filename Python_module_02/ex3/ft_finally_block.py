@@ -54,4 +54,4 @@ def test_watering_system():
 	water_plants(plant_list_2)
 	print("\nCleanup always happens, even with errors!")
 
-test_watering_system()
+#test_watering_system()
