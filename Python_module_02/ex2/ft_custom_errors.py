@@ -48,8 +48,7 @@ def test_custom_errors():
 	try:
 		test_plant_error()
 	except GardenError as e:
-	# I used subtype polymorphism where specific child classes
-	# like PlantError are treated as their general parent class, GardenError.
+	# PlantError are treated as their general parent class, GardenError.
 		print(f"Caught a garden error: {e}")
 	try:
 		test_water_error()
