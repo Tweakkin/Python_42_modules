@@ -105,7 +105,7 @@ class GardenManager:
 			except GardenError as e:
 				print(f"Error checking {e}")
 				
-def test_garden_system():
+def test_garden_management():
 	"""
     Main execution function to test the GardenManager class.
     
@@ -140,4 +140,4 @@ def test_garden_system():
 
 	print("Garden management system test complete!")
 
-#test_garden_system()
+#test_garden_managememt()
