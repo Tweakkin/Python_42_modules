@@ -64,4 +64,4 @@ def test_plant_checks():
     
     print("\nAll error raising tests completed!")
 
-#test_plant_checks()
+test_plant_checks()

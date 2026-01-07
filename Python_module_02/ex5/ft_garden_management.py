@@ -140,4 +140,4 @@ def test_garden_management():
 
 	print("Garden management system test complete!")
 
-#test_garden_managememt()
+test_garden_managememt()
