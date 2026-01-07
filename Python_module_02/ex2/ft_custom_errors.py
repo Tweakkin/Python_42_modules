@@ -5,11 +5,13 @@ class GardenError(Exception):
     """
     pass
 
+
 class PlantError(GardenError):
     """
     Specific error for plant-related issues.
     """
     pass
+
 
 class WaterError(GardenError):
     """
@@ -17,11 +19,13 @@ class WaterError(GardenError):
     """
     pass
 
+
 def test_plant_error():
     """
     Simulates a plant problem by raising a PlantError.
     """
     raise PlantError("The tomato plant is wilting!")
+
 
 def test_water_error():
     """
@@ -29,32 +33,34 @@ def test_water_error():
     """
     raise WaterError("Not enough water in the tank!")
 
+
 def test_custom_errors():
-	print("=== Custom Garden Errors Demo ===")
+    print("=== Custom Garden Errors Demo ===")
 
-	print("\nTesting PlantError...")
-	try:
-		test_plant_error()
-	except PlantError as e:
-		print(f"Caught PlantError: {e}")
+    print("\nTesting PlantError...")
+    try:
+        test_plant_error()
+    except PlantError as e:
+        print(f"Caught PlantError: {e}")
 
-	print("\nTesting WaterError...")
-	try:
-		test_water_error()
-	except WaterError as e:
-		print(f"Caught WaterError: {e}")
+    print("\nTesting WaterError...")
+    try:
+        test_water_error()
+    except WaterError as e:
+        print(f"Caught WaterError: {e}")
 
-	print("\nTesting catching all garden errors...")
-	try:
-		test_plant_error()
-	except GardenError as e:
-	# PlantError are treated as their general parent class, GardenError.
-		print(f"Caught a garden error: {e}")
-	try:
-		test_water_error()
-	except GardenError as e:
-		print(f"Caught a garden error: {e}")
+    print("\nTesting catching all garden errors...")
+    try:
+        test_plant_error()
+    except GardenError as e:
+        # PlantError are treated as their general parent class, GardenError.
+        print(f"Caught a garden error: {e}")
+    try:
+        test_water_error()
+    except GardenError as e:
+        print(f"Caught a garden error: {e}")
 
-	print("\nAll custom error types work correctly!")
+    print("\nAll custom error types work correctly!")
+
 
 test_custom_errors()
