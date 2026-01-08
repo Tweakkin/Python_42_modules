@@ -55,10 +55,7 @@ def test_temperature_input():
     print()
 
     print("Testing temperature: abc")
-    try:
-        check_temperature("abc")
-    except ValueError as e:
-        print(f"Error: {e}")
+    check_temperature("abc")
     print()
 
     print("Testing temperature: 100")
