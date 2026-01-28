@@ -29,17 +29,17 @@ class ScoreAnalyticsGenerator:
             random.seed(seed)
 
         self.player_archetypes = {
-            'casual': {'min': 200, 'max': 800, 'weight': 0.4},
-            'regular': {'min': 600, 'max': 1500, 'weight': 0.35},
-            'competitive': {'min': 1200, 'max': 2500, 'weight': 0.20},
-            'expert': {'min': 2000, 'max': 3500, 'weight': 0.05}
+            "casual": {"min": 200, "max": 800, "weight": 0.4},
+            "regular": {"min": 600, "max": 1500, "weight": 0.35},
+            "competitive": {"min": 1200, "max": 2500, "weight": 0.20},
+            "expert": {"min": 2000, "max": 3500, "weight": 0.05},
         }
 
         self.game_modes = {
-            'tutorial': {'multiplier': 0.3, 'variance': 0.1},
-            'casual': {'multiplier': 1.0, 'variance': 0.2},
-            'ranked': {'multiplier': 1.5, 'variance': 0.15},
-            'tournament': {'multiplier': 2.0, 'variance': 0.25}
+            "tutorial": {"multiplier": 0.3, "variance": 0.1},
+            "casual": {"multiplier": 1.0, "variance": 0.2},
+            "ranked": {"multiplier": 1.5, "variance": 0.15},
+            "tournament": {"multiplier": 2.0, "variance": 0.25},
         }
 
     def generate_realistic_scores(self, count: int = 20) -> List[int]:
@@ -60,20 +60,18 @@ class ScoreAnalyticsGenerator:
             archetype_data = self.player_archetypes[archetype]
 
             # Generate base score within archetype range
-            base_score = random.randint(
-                archetype_data['min'], archetype_data['max'])
+            base_score = random.randint(archetype_data["min"], archetype_data["max"])
 
             # Apply game mode modifier
             mode = random.choice(list(self.game_modes.keys()))
             mode_data = self.game_modes[mode]
 
             # Calculate final score with variance
-            multiplier = mode_data['multiplier']
-            variance = mode_data['variance']
+            multiplier = mode_data["multiplier"]
+            variance = mode_data["variance"]
 
             # Add some randomness within variance
-            final_multiplier = multiplier * \
-                (1 + random.uniform(-variance, variance))
+            final_multiplier = multiplier * (1 + random.uniform(-variance, variance))
             final_score = int(base_score * final_multiplier)
 
             # Ensure minimum score of 0
@@ -83,12 +81,12 @@ class ScoreAnalyticsGenerator:
 
     def _weighted_choice(self, choices: Dict[str, Dict]) -> str:
         """Select item based on weights using elegant algorithm."""
-        total_weight = sum(data['weight'] for data in choices.values())
+        total_weight = sum(data["weight"] for data in choices.values())
         random_value = random.uniform(0, total_weight)
 
         cumulative_weight = 0
         for choice, data in choices.items():
-            cumulative_weight += data['weight']
+            cumulative_weight += data["weight"]
             if random_value <= cumulative_weight:
                 return choice
 
@@ -98,13 +96,13 @@ class ScoreAnalyticsGenerator:
     def generate_edge_cases(self) -> List[int]:
         """Generate edge cases for robust testing."""
         return [
-            0,          # Minimum possible score
-            1,          # Just above minimum
-            999,        # Edge of 3-digit numbers
-            1000,       # Start of 4-digit numbers
-            9999,       # Edge of 4-digit numbers
-            10000,      # Start of 5-digit numbers
-            99999       # Large score
+            0,  # Minimum possible score
+            1,  # Just above minimum
+            999,  # Edge of 3-digit numbers
+            1000,  # Start of 4-digit numbers
+            9999,  # Edge of 4-digit numbers
+            10000,  # Start of 5-digit numbers
+            99999,  # Large score
         ]
 
     def analyze_scores(self, scores: List[int]) -> Dict[str, float]:
@@ -118,25 +116,25 @@ class ScoreAnalyticsGenerator:
             Dictionary containing various statistical measures
         """
         if not scores:
-            return {'error': 'No scores provided'}
+            return {"error": "No scores provided"}
 
         analysis = {
-            'count': len(scores),
-            'total': sum(scores),
-            'mean': statistics.mean(scores),
-            'median': statistics.median(scores),
-            'mode': statistics.mode(scores) if len(
-                set(scores)) < len(scores) else None,
-            'min': min(scores),
-            'max': max(scores),
-            'range': max(scores) - min(scores),
-            'std_dev': statistics.stdev(scores) if len(scores) > 1 else 0}
+            "count": len(scores),
+            "total": sum(scores),
+            "mean": statistics.mean(scores),
+            "median": statistics.median(scores),
+            "mode": statistics.mode(scores) if len(set(scores)) < len(scores) else None,
+            "min": min(scores),
+            "max": max(scores),
+            "range": max(scores) - min(scores),
+            "std_dev": statistics.stdev(scores) if len(scores) > 1 else 0,
+        }
 
         # Add percentiles
         sorted_scores = sorted(scores)
-        analysis['q1'] = self._percentile(sorted_scores, 25)
-        analysis['q3'] = self._percentile(sorted_scores, 75)
-        analysis['iqr'] = analysis['q3'] - analysis['q1']
+        analysis["q1"] = self._percentile(sorted_scores, 25)
+        analysis["q3"] = self._percentile(sorted_scores, 75)
+        analysis["iqr"] = analysis["q3"] - analysis["q1"]
 
         return analysis
 
@@ -154,27 +152,28 @@ class ScoreAnalyticsGenerator:
 
         # Linear interpolation
         weight = index - lower_index
-        return sorted_data[lower_index] * \
-            (1 - weight) + sorted_data[upper_index] * weight
+        return (
+            sorted_data[lower_index] * (1 - weight) + sorted_data[upper_index] * weight
+        )
 
     def format_for_command_line(self, scores: List[int]) -> str:
         """Format scores for command line testing."""
-        return ' '.join(map(str, scores))
+        return " ".join(map(str, scores))
 
     def generate_test_scenarios(self) -> Dict[str, List[int]]:
         """Generate various test scenarios for comprehensive testing."""
         return {
-            'small_dataset': self.generate_realistic_scores(5),
-            'medium_dataset': self.generate_realistic_scores(20),
-            'large_dataset': self.generate_realistic_scores(100),
-            'edge_cases': self.generate_edge_cases(),
-            'uniform_scores': [1500] * 10,  # All same score
+            "small_dataset": self.generate_realistic_scores(5),
+            "medium_dataset": self.generate_realistic_scores(20),
+            "large_dataset": self.generate_realistic_scores(100),
+            "edge_cases": self.generate_edge_cases(),
+            "uniform_scores": [1500] * 10,  # All same score
             # Perfectly ascending
-            'ascending_scores': list(range(100, 1100, 100)),
+            "ascending_scores": list(range(100, 1100, 100)),
             # High variance
-            'high_variance': [100, 3000, 200, 2800, 150, 2900],
-            'single_score': [1337],  # Single element
-            'empty_list': []  # Edge case: no scores
+            "high_variance": [100, 3000, 200, 2800, 150, 2900],
+            "single_score": [1337],  # Single element
+            "empty_list": [],  # Edge case: no scores
         }
 
     def demonstrate_list_operations(self, scores: List[int]) -> None:

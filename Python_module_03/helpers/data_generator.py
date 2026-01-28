@@ -15,17 +15,23 @@ class PixelDataGenerator:
     def __init__(self, seed: int = 42):
         """Initialize with reproducible seed for consistent testing."""
         random.seed(seed)
-        self.players = ['alice', 'bob', 'charlie', 'diana', 'eve', 'frank']
+        self.players = ["alice", "bob", "charlie", "diana", "eve", "frank"]
         self.achievements = [
-            'first_blood', 'level_master', 'speed_runner', 'treasure_seeker',
-            'boss_hunter', 'pixel_perfect', 'combo_king', 'explorer'
+            "first_blood",
+            "level_master",
+            "speed_runner",
+            "treasure_seeker",
+            "boss_hunter",
+            "pixel_perfect",
+            "combo_king",
+            "explorer",
         ]
         self.items = {
-            'pixel_sword': {'type': 'weapon', 'value': 150, 'rarity': 'common'},
-            'quantum_ring': {'type': 'accessory', 'value': 500, 'rarity': 'rare'},
-            'health_byte': {'type': 'consumable', 'value': 25, 'rarity': 'common'},
-            'data_crystal': {'type': 'material', 'value': 1000, 'rarity': 'legendary'},
-            'code_bow': {'type': 'weapon', 'value': 200, 'rarity': 'uncommon'}
+            "pixel_sword": {"type": "weapon", "value": 150, "rarity": "common"},
+            "quantum_ring": {"type": "accessory", "value": 500, "rarity": "rare"},
+            "health_byte": {"type": "consumable", "value": 25, "rarity": "common"},
+            "data_crystal": {"type": "material", "value": 1000, "rarity": "legendary"},
+            "code_bow": {"type": "weapon", "value": 200, "rarity": "uncommon"},
         }
 
     def generate_exercise_data(self, exercise_num: int, **kwargs) -> Any:
@@ -37,7 +43,7 @@ class PixelDataGenerator:
             3: self._achievements_for_tracker,
             4: self._inventory_for_system,
             5: self._events_for_stream,
-            6: self._analytics_for_dashboard
+            6: self._analytics_for_dashboard,
         }
 
         if exercise_num not in generators:
@@ -45,54 +51,49 @@ class PixelDataGenerator:
 
         return generators[exercise_num](**kwargs)
 
-    def _command_for_quest(
-            self,
-            count: int = 8,
-            format_type: str = 'list') -> Any:
+    def _command_for_quest(self, count: int = 8, format_type: str = "list") -> Any:
         """Generate command line arguments for sys.argv discovery."""
         commands = [
-            ['status', '--verbose'],
-            ['analyze', 'player1', 'player2', '--format=json'],
-            ['help', 'commands'],
-            ['version'],
-            ['config', '--set', 'debug=true'],
-            ['list', '--all', '--sort=name'],
-            ['export', 'data.json', '--compress'],
-            ['import', 'backup.json', '--merge']
+            ["status", "--verbose"],
+            ["analyze", "player1", "player2", "--format=json"],
+            ["help", "commands"],
+            ["version"],
+            ["config", "--set", "debug=true"],
+            ["list", "--all", "--sort=name"],
+            ["export", "data.json", "--compress"],
+            ["import", "backup.json", "--merge"],
         ]
 
         selected = random.sample(commands, min(count, len(commands)))
 
-        if format_type == 'argv':
-            return ' '.join(random.choice(selected))
-        elif format_type == 'list':
+        if format_type == "argv":
+            return " ".join(random.choice(selected))
+        elif format_type == "list":
             return selected
         return selected
 
-    def _scores_for_analytics(
-            self,
-            count: int = 10,
-            format_type: str = 'list') -> Any:
+    def _scores_for_analytics(self, count: int = 10, format_type: str = "list") -> Any:
         """Generate player scores for command line analytics."""
         scores = [random.randint(100, 2000) for _ in range(count)]
 
-        if format_type == 'argv':
-            return ' '.join(map(str, scores))
-        elif format_type == 'list':
+        if format_type == "argv":
+            return " ".join(map(str, scores))
+        elif format_type == "list":
             return scores
         return scores
 
-    def _coordinates_for_system(
-            self, count: int = 8) -> List[Tuple[int, int, int]]:
+    def _coordinates_for_system(self, count: int = 8) -> List[Tuple[int, int, int]]:
         """Generate 3D coordinates for tuple unpacking practice."""
         coordinates = []
         for _ in range(count):
             # 3D coordinate (x, y, z)
-            coordinates.append((
-                random.randint(-50, 50),
-                random.randint(-50, 50),
-                random.randint(-25, 25)
-            ))
+            coordinates.append(
+                (
+                    random.randint(-50, 50),
+                    random.randint(-50, 50),
+                    random.randint(-25, 25),
+                )
+            )
         return coordinates
 
     def _achievements_for_tracker(self) -> Dict[str, List[str]]:
@@ -123,50 +124,40 @@ class PixelDataGenerator:
         for player in self.players[:4]:  # Limit for clarity
             # Each player gets random items with quantities
             selected_items = random.sample(
-                list(
-                    self.items.keys()), random.randint(
-                    2, 4))
+                list(self.items.keys()), random.randint(2, 4)
+            )
             inventory = {item: random.randint(1, 3) for item in selected_items}
 
             # Calculate total value using item catalog
             total_value = sum(
-                self.items[item]['value'] * quantity
+                self.items[item]["value"] * quantity
                 for item, quantity in inventory.items()
             )
 
             player_inventories[player] = {
-                'items': inventory,
-                'total_value': total_value,
-                'item_count': sum(inventory.values())
+                "items": inventory,
+                "total_value": total_value,
+                "item_count": sum(inventory.values()),
             }
 
-        return {
-            'players': player_inventories,
-            'catalog': self.items
-        }
+        return {"players": player_inventories, "catalog": self.items}
 
     def _events_for_stream(self, count: int = 50) -> List[Dict[str, Any]]:
         """Generate game events for generator/streaming practice."""
-        event_types = [
-            'login',
-            'logout',
-            'kill',
-            'death',
-            'level_up',
-            'item_found']
+        event_types = ["login", "logout", "kill", "death", "level_up", "item_found"]
         events = []
 
         for event_id in range(1, count + 1):
             event = {
-                'id': event_id,
-                'player': random.choice(self.players),
-                'event_type': random.choice(event_types),
-                'timestamp': f"2024-01-{random.randint(1, 30):02d}T{random.randint(0, 23):02d}:{random.randint(0, 59):02d}",
-                'data': {
-                    'level': random.randint(1, 50),
-                    'score_delta': random.randint(-100, 500),
-                    'zone': f"pixel_zone_{random.randint(1, 5)}"
-                }
+                "id": event_id,
+                "player": random.choice(self.players),
+                "event_type": random.choice(event_types),
+                "timestamp": f"2024-01-{random.randint(1, 30):02d}T{random.randint(0, 23):02d}:{random.randint(0, 59):02d}",
+                "data": {
+                    "level": random.randint(1, 50),
+                    "score_delta": random.randint(-100, 500),
+                    "zone": f"pixel_zone_{random.randint(1, 5)}",
+                },
             }
             events.append(event)
 
@@ -177,11 +168,11 @@ class PixelDataGenerator:
         # Player statistics
         players_data = {
             player: {
-                'level': random.randint(1, 50),
-                'total_score': random.randint(1000, 10000),
-                'sessions_played': random.randint(10, 100),
-                'favorite_mode': random.choice(['casual', 'competitive', 'ranked']),
-                'achievements_count': random.randint(1, len(self.achievements))
+                "level": random.randint(1, 50),
+                "total_score": random.randint(1000, 10000),
+                "sessions_played": random.randint(10, 100),
+                "favorite_mode": random.choice(["casual", "competitive", "ranked"]),
+                "achievements_count": random.randint(1, len(self.achievements)),
             }
             for player in self.players
         }
@@ -189,20 +180,20 @@ class PixelDataGenerator:
         # Session data for comprehensions
         sessions = [
             {
-                'player': random.choice(self.players),
-                'duration_minutes': random.randint(5, 120),
-                'score': random.randint(100, 3000),
-                'mode': random.choice(['casual', 'competitive', 'ranked']),
-                'completed': random.choice([True, False])
+                "player": random.choice(self.players),
+                "duration_minutes": random.randint(5, 120),
+                "score": random.randint(100, 3000),
+                "mode": random.choice(["casual", "competitive", "ranked"]),
+                "completed": random.choice([True, False]),
             }
             for _ in range(30)
         ]
 
         return {
-            'players': players_data,
-            'sessions': sessions,
-            'game_modes': ['casual', 'competitive', 'ranked'],
-            'achievements': self.achievements
+            "players": players_data,
+            "sessions": sessions,
+            "game_modes": ["casual", "competitive", "ranked"],
+            "achievements": self.achievements,
         }
 
     def generate_test_commands(self) -> None:
@@ -212,12 +203,12 @@ class PixelDataGenerator:
 
         exercises = [
             (0, "Command Quest", {}),
-            (1, "Score Cruncher", {'count': 8, 'format_type': 'argv'}),
-            (2, "Coordinate System", {'count': 5}),
+            (1, "Score Cruncher", {"count": 8, "format_type": "argv"}),
+            (2, "Coordinate System", {"count": 5}),
             (3, "Achievement Tracker", {}),
             (4, "Inventory System", {}),
-            (5, "Data Stream Processor", {'count': 10}),
-            (6, "Analytics Dashboard", {})
+            (5, "Data Stream Processor", {"count": 10}),
+            (6, "Analytics Dashboard", {}),
         ]
 
         for ex_num, ex_name, kwargs in exercises:
@@ -226,7 +217,7 @@ class PixelDataGenerator:
             if ex_num == 0:  # Command Quest
                 commands = self.generate_exercise_data(ex_num, **kwargs)
                 for i, cmd in enumerate(commands[:3], 1):
-                    cmd_str = ' '.join(cmd)
+                    cmd_str = " ".join(cmd)
                     print(f"Test {i}: python3 ft_command_quest.py {cmd_str}")
 
             elif ex_num == 1:  # Score Cruncher
@@ -234,8 +225,7 @@ class PixelDataGenerator:
                 print(f"Test: python3 ft_score_analytics.py {scores}")
 
             else:
-                print(
-                    f"Data available via: python3 data_generator.py {ex_num}")
+                print(f"Data available via: python3 data_generator.py {ex_num}")
 
             print()
 
@@ -246,13 +236,13 @@ class PixelDataGenerator:
         print("\n=== Data Quest: Exercise Examples ===\n")
 
         # Exercise 0 - Command Quest
-        commands = self.generate_exercise_data(0, count=3, format_type='argv')
+        commands = self.generate_exercise_data(0, count=3, format_type="argv")
         print("Exercise 0 - Command Quest:")
         print(f"  Command line test: python3 ft_command_quest.py {commands}")
         print()
 
         # Exercise 1 - Score Analytics
-        scores = self.generate_exercise_data(1, count=6, format_type='argv')
+        scores = self.generate_exercise_data(1, count=6, format_type="argv")
         print("Exercise 1 - Score Cruncher:")
         print(f"  Command line test: python3 ft_score_analytics.py {scores}")
         print()
@@ -271,23 +261,24 @@ class PixelDataGenerator:
             unique_count = len(set(player_achievements))
             total_count = len(player_achievements)
             print(
-                f"  {player}: {total_count} total, {unique_count} unique achievements")
+                f"  {player}: {total_count} total, {unique_count} unique achievements"
+            )
         print()
 
         # Exercise 4 - Inventory preview
         inventory = self.generate_exercise_data(4)
         print("Exercise 4 - Inventory System:")
-        for player, data in list(inventory['players'].items())[:2]:
+        for player, data in list(inventory["players"].items())[:2]:
             print(
-                f"  {player}: {len(data['items'])} items, {data['total_value']} gold value")
+                f"  {player}: {len(data['items'])} items, {data['total_value']} gold value"
+            )
         print()
 
         # Exercise 5 - Event stream
         events = self.generate_exercise_data(5, count=3)
         print("Exercise 5 - Data Stream Processor:")
         for event in events:
-            print(
-                f"  Event {event['id']}: {event['player']} - {event['event_type']}")
+            print(f"  Event {event['id']}: {event['player']} - {event['event_type']}")
         print()
 
         # Exercise 6 - Analytics overview
@@ -310,15 +301,15 @@ def main():
 
             # Parse options
             kwargs = {}
-            if '--count' in sys.argv:
-                idx = sys.argv.index('--count') + 1
+            if "--count" in sys.argv:
+                idx = sys.argv.index("--count") + 1
                 if idx < len(sys.argv):
-                    kwargs['count'] = int(sys.argv[idx])
+                    kwargs["count"] = int(sys.argv[idx])
 
-            if '--format' in sys.argv:
-                idx = sys.argv.index('--format') + 1
+            if "--format" in sys.argv:
+                idx = sys.argv.index("--format") + 1
                 if idx < len(sys.argv):
-                    kwargs['format_type'] = sys.argv[idx]
+                    kwargs["format_type"] = sys.argv[idx]
 
             # Generate and display data
             data = generator.generate_exercise_data(exercise_num, **kwargs)
@@ -327,19 +318,21 @@ def main():
         except (ValueError, IndexError) as e:
             print(f"Error: {e}")
             print(
-                "Usage: python3 data_generator.py <exercise_num> [--count N] [--format argv|list]")
+                "Usage: python3 data_generator.py <exercise_num> [--count N] [--format argv|list]"
+            )
     else:
         # Interactive mode
         print("=== Data Quest: The Pixel Dimension - Data Generator ===")
         print("Generate test data for your Python exercises.\n")
 
         choice = input(
-            "Choose option:\n1. Generate test commands\n2. Show examples\n3. Both\nChoice (1/2/3): ")
+            "Choose option:\n1. Generate test commands\n2. Show examples\n3. Both\nChoice (1/2/3): "
+        )
 
-        if choice in ['1', '3']:
+        if choice in ["1", "3"]:
             generator.generate_test_commands()
 
-        if choice in ['2', '3']:
+        if choice in ["2", "3"]:
             generator.show_examples()
 
         print("\nHappy coding, pixel warrior! 🎮")

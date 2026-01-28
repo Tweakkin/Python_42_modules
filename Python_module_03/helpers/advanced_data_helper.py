@@ -41,18 +41,43 @@ class AdvancedDataHelper:
             "Maya",
             "Noah",
             "Olivia",
-            "Paul"]
+            "Paul",
+        ]
 
         self.achievements = [
-            "first_kill", "level_10", "level_50", "level_100", "speedrun",
-            "explorer", "treasure_hunter", "boss_slayer", "collector",
-            "perfectionist", "social_butterfly", "lone_wolf", "strategist",
-            "berserker", "pacifist", "completionist"
+            "first_kill",
+            "level_10",
+            "level_50",
+            "level_100",
+            "speedrun",
+            "explorer",
+            "treasure_hunter",
+            "boss_slayer",
+            "collector",
+            "perfectionist",
+            "social_butterfly",
+            "lone_wolf",
+            "strategist",
+            "berserker",
+            "pacifist",
+            "completionist",
         ]
 
         self.item_types = [
-            "sword", "shield", "potion", "bow", "arrow", "armor", "helmet",
-            "boots", "ring", "amulet", "scroll", "gem", "key", "map"
+            "sword",
+            "shield",
+            "potion",
+            "bow",
+            "arrow",
+            "armor",
+            "helmet",
+            "boots",
+            "ring",
+            "amulet",
+            "scroll",
+            "gem",
+            "key",
+            "map",
         ]
 
     def generate_complex_scores(self, count: int = 100) -> List[int]:
@@ -75,13 +100,15 @@ class AdvancedDataHelper:
         return scores
 
     def generate_coordinate_clusters(
-            self, clusters: int = 3, points_per_cluster: int = 10) -> List[Tuple[float, float]]:
+        self, clusters: int = 3, points_per_cluster: int = 10
+    ) -> List[Tuple[float, float]]:
         """Generate clustered coordinate data for advanced testing."""
         coordinates = []
 
         # Generate cluster centers
-        centers = [(random.uniform(-50, 50), random.uniform(-50, 50))
-                   for _ in range(clusters)]
+        centers = [
+            (random.uniform(-50, 50), random.uniform(-50, 50)) for _ in range(clusters)
+        ]
 
         for center_x, center_y in centers:
             for _ in range(points_per_cluster):
@@ -93,7 +120,8 @@ class AdvancedDataHelper:
         return coordinates
 
     def generate_achievement_network(
-            self, player_count: int = 20) -> Dict[str, Set[str]]:
+        self, player_count: int = 20
+    ) -> Dict[str, Set[str]]:
         """Generate complex achievement networks with dependencies."""
         network = {}
 
@@ -117,8 +145,7 @@ class AdvancedDataHelper:
                 player_achievements.add("level_100")
 
             # Add random achievements
-            available = [
-                a for a in self.achievements if a not in player_achievements]
+            available = [a for a in self.achievements if a not in player_achievements]
             num_random = random.randint(0, min(5, len(available)))
             player_achievements.update(random.sample(available, num_random))
 
@@ -130,29 +157,15 @@ class AdvancedDataHelper:
         """Generate deeply nested inventory structures."""
         inventory = {
             "players": {},
-            "global_stats": {
-                "total_items": 0,
-                "total_value": 0,
-                "rarest_items": []
-            },
-            "market_data": {
-                "prices": {},
-                "trends": {}
-            }
+            "global_stats": {"total_items": 0, "total_value": 0, "rarest_items": []},
+            "market_data": {"prices": {}, "trends": {}},
         }
 
-        for player in random.sample(
-            self.player_names, min(
-                8, len(
-                self.player_names))):
+        for player in random.sample(self.player_names, min(8, len(self.player_names))):
             player_inv = {
                 "items": {},
-                "stats": {
-                    "total_items": 0,
-                    "total_value": 0,
-                    "favorite_type": None
-                },
-                "history": []
+                "stats": {"total_items": 0, "total_value": 0, "favorite_type": None},
+                "history": [],
             }
 
             # Generate items
@@ -168,7 +181,9 @@ class AdvancedDataHelper:
                     player_inv["items"][item] = {
                         "quantity": quantity,
                         "value_per_unit": value,
-                        "rarity": random.choice(["common", "uncommon", "rare", "epic", "legendary"])
+                        "rarity": random.choice(
+                            ["common", "uncommon", "rare", "epic", "legendary"]
+                        ),
                     }
 
                 player_inv["stats"]["total_items"] += quantity
@@ -178,24 +193,24 @@ class AdvancedDataHelper:
             if player_inv["items"]:
                 player_inv["stats"]["favorite_type"] = max(
                     player_inv["items"].keys(),
-                    key=lambda x: player_inv["items"][x]["quantity"]
+                    key=lambda x: player_inv["items"][x]["quantity"],
                 )
 
             inventory["players"][player] = player_inv
-            inventory["global_stats"]["total_items"] += player_inv["stats"]["total_items"]
-            inventory["global_stats"]["total_value"] += player_inv["stats"]["total_value"]
+            inventory["global_stats"]["total_items"] += player_inv["stats"][
+                "total_items"
+            ]
+            inventory["global_stats"]["total_value"] += player_inv["stats"][
+                "total_value"
+            ]
 
         return inventory
 
     def generate_streaming_data(
-            self, duration: int = 100) -> Generator[Dict[str, Any], None, None]:
+        self, duration: int = 100
+    ) -> Generator[Dict[str, Any], None, None]:
         """Generate streaming game events for generator testing."""
-        event_types = [
-            "kill",
-            "death",
-            "level_up",
-            "item_found",
-            "quest_complete"]
+        event_types = ["kill", "death", "level_up", "item_found", "quest_complete"]
 
         for i in range(duration):
             yield {
@@ -207,19 +222,14 @@ class AdvancedDataHelper:
                     "location": (random.uniform(-100, 100), random.uniform(-100, 100)),
                     "metadata": {
                         "session_id": f"session_{random.randint(1000, 9999)}",
-                        "server": f"server_{random.randint(1, 10)}"
-                    }
-                }
+                        "server": f"server_{random.randint(1, 10)}",
+                    },
+                },
             }
 
     def validate_data_structure(self, data: Any, expected_type: str) -> bool:
         """Validate data structures for testing."""
-        type_map = {
-            "list": list,
-            "tuple": tuple,
-            "set": set,
-            "dict": dict
-        }
+        type_map = {"list": list, "tuple": tuple, "set": set, "dict": dict}
 
         if expected_type not in type_map:
             return False
@@ -228,25 +238,31 @@ class AdvancedDataHelper:
 
     def performance_test_data(self, size: str = "medium") -> Dict[str, Any]:
         """Generate data for performance testing."""
-        sizes = {
-            "small": 100,
-            "medium": 1000,
-            "large": 10000,
-            "huge": 100000
-        }
+        sizes = {"small": 100, "medium": 1000, "large": 10000, "huge": 100000}
 
         count = sizes.get(size, 1000)
 
         return {
             "scores": [random.randint(0, 3000) for _ in range(count)],
-            "coordinates": [(random.uniform(-1000, 1000), random.uniform(-1000, 1000))
-                            for _ in range(count // 10)],
-            "achievements": {f"player_{i}": set(random.sample(self.achievements,
-                                                              random.randint(1, len(self.achievements))))
-                             for i in range(count // 100)},
-            "inventory": {f"player_{i}": {item: random.randint(1, 50)
-                                          for item in random.sample(self.item_types, random.randint(1, 5))}
-                          for i in range(count // 200)}
+            "coordinates": [
+                (random.uniform(-1000, 1000), random.uniform(-1000, 1000))
+                for _ in range(count // 10)
+            ],
+            "achievements": {
+                f"player_{i}": set(
+                    random.sample(
+                        self.achievements, random.randint(1, len(self.achievements))
+                    )
+                )
+                for i in range(count // 100)
+            },
+            "inventory": {
+                f"player_{i}": {
+                    item: random.randint(1, 50)
+                    for item in random.sample(self.item_types, random.randint(1, 5))
+                }
+                for i in range(count // 200)
+            },
         }
 
 
