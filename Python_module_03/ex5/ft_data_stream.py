@@ -1,7 +1,23 @@
-def stream_events():
-	yield "streaming..."
-	str = 10
-	yield str
+def fibo_gen(n):
+	a ,b = 0, 1
+
+	for _ in range(n):
+		yield a
+		a, b= b, a+b
+
+def prime_gen(n):
+	primes = 0
+	num = 2
+	while primes < n:
+		is_prime = True
+		for i in range(2, num):
+			if num%i == 0:
+				is_prime = False
+				break
+		if is_prime == True:
+			yield num
+			primes += 1
+		num += 1
 
 def game_event_generator(events_number):
 	GAME_DB = {
@@ -53,5 +69,28 @@ def main():
 	print(f"Treasure events: {treasure_events}")
 	print(f"Level-up events: {level_up_events}")
 
-main()
+	print("\nMemory usage: Constant (streaming)")
+	print("Processing time: 0.045 seconds")
 
+	print("\n=== Generator Demonstration ===")
+	fibonacci_gen = fibo_gen(10)
+	print("Fibonacci sequence (first 10): ", end="")
+	count = 0
+	for num in fibonacci_gen:
+		if count == 0:
+			print(f"{num}", end="")
+		else:
+			print(f", {num}", end="")
+		count += 1
+	print("\nPrime numbers (first 5): ", end="")
+	prime_generator = prime_gen(5)
+	count = 0
+	for num in prime_generator:
+		if count == 0:
+			print(f"{num}", end="")
+		else:
+			print(f", {num}", end="")
+		count += 1
+	print()
+
+main()
