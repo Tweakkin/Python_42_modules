@@ -1,3 +1,6 @@
+def get_quantity(inventory_tuple):
+	return inventory_tuple[1]
+
 def main():
 
 	GAME_DATA = {
@@ -178,5 +181,40 @@ def main():
 	high_score_players = [name for name, stats in GAME_DATA['players'].items()
 							if stats['total_score'] > 2000]
 	print(f"High scorers (>2000): {high_score_players}")
-	scores_doubles = score*2 for stats in GAME_DATA['players'].values()
-main()
+	scores_doubles = [(player_stats['total_score']*2) for player_stats in GAME_DATA['players'].values()]
+	print(f"Scores doubled: {scores_doubles}")
+	active_players = [name for name, stats in GAME_DATA['players'].items()
+							if stats['sessions_played'] > 0]
+	print(f"Active players: {active_players}")
+
+	print("\n=== Dict Comprehension Examples ===")
+	players_and_scores = {key : value['total_score'] for key, value in GAME_DATA['players'].items()}
+	print(f"Player scores: {players_and_scores}")
+	all_scores = [stat['total_score'] for stat in GAME_DATA['players'].values()]
+	labels = ['high' if s > 6000 else 'medium' if s > 3000 else 'low' for s in all_scores]
+	categories = ['high', 'medium', 'low']
+	score_categ = {key: labels.count(key) for key in categories}
+	print(f"Score categories: {score_categ}")
+	players_achievements = {key: value['achievements_count'] for key, value in GAME_DATA['players'].items()}
+	print(f"Achievement counts: {players_achievements}")
+	print("\n=== Set Comprehension Examples ===")
+	unique_players = {data['player'] for data in GAME_DATA['sessions']}
+	print(f"Unique players: {unique_players}")
+	unique_achievements = {data for data in GAME_DATA['achievements']}
+	print(f"Unique achievements: {unique_achievements}")
+	unique_modes = {data['mode'] for data in GAME_DATA['sessions']}
+	# THERE ARE NO REGIONS IN THE DATA PASSED !!!
+	# I REPLACED IT WITH MODES
+	print(f"Active modes: {unique_modes}")
+
+	print("\n=== Combined Analysis ===")
+	print(f"Total players: {len(unique_players)}")
+	print(f"Total unique achievements: {len(unique_achievements)}")
+	av_score = sum(players_and_scores.values()) / (len(unique_players))
+	print(f"Average score: {av_score:.1f}")
+	max_s = max(players_and_scores.items(), key=get_quantity)
+	print(f"Top performer: {max_s[0]} "
+		  f"({max_s[1]} points, {players_achievements[max_s[0]]} achievements)")
+
+
+ain()
