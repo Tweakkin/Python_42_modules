@@ -1,39 +1,40 @@
 print("=== Achievement Tracker System ===\n")
 
-alice_achievements = {
+alice = {
     "first_kill",
     "level_10",
     "treasure_hunter",
     "speed_demon",
     "treasure_hunter",
 }
-bob_achievements = {"first_kill", "level_10", "boss_slayer", "boss_slayer", "collector"}
-charlie_achievements = {
+bob = {"first_kill", "level_10", "boss_slayer", "boss_slayer", "collector"}
+charlie = {
     "level_10",
     "treasure_hunter",
     "boss_slayer",
     "speed_demon",
     "perfectionist",
 }
-print(f"Player alice achievements: {alice_achievements}")
-print(f"Player bob achievements: {bob_achievements}")
-print(f"Player charlie achievements: {charlie_achievements}")
+print(f"Player alice achievements: {alice}")
+print(f"Player bob achievements: {bob}")
+print(f"Player charlie achievements: {charlie}")
 
 print("\n=== Achievement Analytics ===")
-unique_achievements = alice_achievements.union(bob_achievements, charlie_achievements)
-print(f"All unique achievements: {unique_achievements}")
-print(f"Total unique achievements: {len(unique_achievements)}")
+unique = alice.union(bob, charlie)
+print(f"All unique achievements: {unique}")
+print(f"Total unique achievements: {len(unique)}")
 
 print(
-    f"\nCommon to all players: {alice_achievements.intersection(bob_achievements, charlie_achievements)}"
+    f"\nCommon to all players: {alice.intersection(bob, charlie)}"
 )
 
-alice_only = alice_achievements.difference(bob_achievements, charlie_achievements)
-bob_only = bob_achievements.difference(alice_achievements, charlie_achievements)
-charlie_only = charlie_achievements.difference(alice_achievements, bob_achievements)
+alice_only = alice.difference(bob, charlie)
+bob_only = bob.difference(alice, charlie)
+charlie_only = charlie.difference(alice, bob)
 
-print(f"Rare achievements (1 player): {alice_only.union(bob_only, charlie_only)}")
+print(f"Rare achievements (1 player): "
+      f"{alice_only.union(bob_only, charlie_only)}")
 
-print(f"\nAlice vs Bob common: {bob_achievements.intersection(alice_achievements)}")
-print(f"Alice unique: {alice_achievements.difference(bob_achievements)}")
-print(f"Bob unique: {bob_achievements.difference(alice_achievements)}")
+print(f"\nAlice vs Bob common: {bob.intersection(alice)}")
+print(f"Alice unique: {alice.difference(bob)}")
+print(f"Bob unique: {bob.difference(alice)}")

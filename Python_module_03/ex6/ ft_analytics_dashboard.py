@@ -295,18 +295,24 @@ def main():
 
     print("\n=== Dict Comprehension Examples ===")
     players_and_scores = {
-        key: value["total_score"] for key, value in GAME_DATA["players"].items()
-    }
+        key: value["total_score"]
+        for key, value in GAME_DATA["players"].items()
+        }
     print(f"Player scores: {players_and_scores}")
-    all_scores = [stat["total_score"] for stat in GAME_DATA["players"].values()]
+    all_scores = [
+        stat["total_score"]
+        for stat in GAME_DATA["players"].values()
+        ]
     labels = [
-        "high" if s > 6000 else "medium" if s > 3000 else "low" for s in all_scores
+        "high" if s > 6000 else "medium"
+        if s > 3000 else "low" for s in all_scores
     ]
     categories = ["high", "medium", "low"]
     score_categ = {key: labels.count(key) for key in categories}
     print(f"Score categories: {score_categ}")
     players_achievements = {
-        key: value["achievements_count"] for key, value in GAME_DATA["players"].items()
+        key: value["achievements_count"]
+        for key, value in GAME_DATA["players"].items()
     }
     print(f"Achievement counts: {players_achievements}")
     print("\n=== Set Comprehension Examples ===")

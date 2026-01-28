@@ -2,7 +2,11 @@ import math
 
 
 def calc_distance(p, p2):
-    res = math.sqrt((p[0] - p2[0]) ** 2 + (p[1] - p2[1]) ** 2 + (p[2] - p2[2]) ** 2)
+    res = math.sqrt(
+        (p[0] - p2[0]) ** 2 +
+        (p[1] - p2[1]) ** 2 +
+        (p[2] - p2[2]) ** 2
+    )
     return res
 
 
@@ -27,7 +31,8 @@ temp_list = []
 try:
     pos_tuple = str_into_tupple(pos_str)
     print(f"Parsed position: {pos_tuple}")
-    print(f"Distance between {p2} and {pos_tuple}: {calc_distance(pos_tuple, p2):.1f}")
+    print(f"Distance between {p2} and {pos_tuple}: "
+          f"{calc_distance(pos_tuple, p2):.1f}")
 except ValueError as e:
     print(f"Error parsing coordinates: {e}")
     print(f"Error details - Type: ValueError, Args: {e.args}")

@@ -61,4 +61,5 @@ print("\n=== Dictionary Properties Demo ===")
 print(f"Dictionary keys: {list(inventory.keys())}")
 print(f"Dictionary values: {list(inventory.values())}")
 check_item = "sword"
-print(f"Sample lookup - '{check_item}' in inventory: {check_item in inventory}")
+print(f"Sample lookup - '{check_item}' "
+      f"in inventory: {check_item in inventory}")
