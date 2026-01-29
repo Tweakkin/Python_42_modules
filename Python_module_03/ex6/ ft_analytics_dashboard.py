@@ -1,8 +1,8 @@
-def get_quantity(inventory_tuple):
+def get_quantity(inventory_tuple: tuple) -> int:
     return inventory_tuple[1]
 
 
-def main():
+def main() -> None:
 
     GAME_DATA = {
         "players": {
