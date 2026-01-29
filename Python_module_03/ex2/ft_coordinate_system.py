@@ -1,7 +1,7 @@
 import math
 
 
-def calc_distance(p, p2):
+def calc_distance(p: tuple, p2: tuple) -> float:
     res = math.sqrt(
         (p[0] - p2[0]) ** 2 +
         (p[1] - p2[1]) ** 2 +
@@ -10,7 +10,7 @@ def calc_distance(p, p2):
     return res
 
 
-def str_into_tupple(pos_str):
+def str_into_tupple(pos_str: str) -> tuple:
     temp_list = []
     pos_list = pos_str.split(",")
     for num in pos_list:
