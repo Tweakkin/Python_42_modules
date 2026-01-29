@@ -1,4 +1,4 @@
-def fibo_gen(n):
+def fibo_gen(n: int) -> Generator[int, None, None]:
     a, b = 0, 1
 
     for _ in range(n):
@@ -6,7 +6,7 @@ def fibo_gen(n):
         a, b = b, a + b
 
 
-def prime_gen(n):
+def prime_gen(n: int) -> Generator[int, None, None]:
     primes = 0
     num = 2
     while primes < n:
@@ -21,7 +21,7 @@ def prime_gen(n):
         num += 1
 
 
-def game_event_generator(events_number):
+def game_event_generator(events_number: int) -> Generator[str, None, None]:
     GAME_DB = {
         1: {"name": "alice", "level": 5, "action": "killed monster"},
         2: {"name": "bob", "level": 12, "action": "found treasure"},
@@ -42,7 +42,7 @@ def game_event_generator(events_number):
         )
 
 
-def main():
+def main() -> None:
     print("=== Game Data Stream Processor ===\n")
     print("Processing 1000 game events...\n")
     total_events = 1000

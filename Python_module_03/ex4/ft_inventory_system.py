@@ -1,7 +1,7 @@
 import sys
 
 
-def get_quantity(inventory_tuple):
+def get_quantity(inventory_tuple: tuple[str, int]) -> int:
     return inventory_tuple[1]
 
 
