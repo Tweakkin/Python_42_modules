@@ -8,6 +8,10 @@ def get_quantity(inventory_tuple: tuple[str, int]) -> int:
 inventory = {}
 
 args = sys.argv[1:]
+if not args:
+    print("Error: No inventory items provided.")
+    print(f"Usage: python3 {sys.argv[0]} <item:quantity> <item:quantity> ...")
+    sys.exit(1)
 
 for arg in args:
     data = arg.split(":")
@@ -19,6 +23,9 @@ for arg in args:
         except ValueError:
             continue
 
+if not inventory:
+    print("Error: No valid items provided")
+    sys.exit(1)
 
 print("=== Inventory System Analysis ===")
 
