@@ -1,4 +1,4 @@
-def fibo_gen(n: int) -> Generator[int, None, None]:
+def fibo_gen(n: int) -> int:
     a, b = 0, 1
 
     for _ in range(n):
@@ -6,7 +6,7 @@ def fibo_gen(n: int) -> Generator[int, None, None]:
         a, b = b, a + b
 
 
-def prime_gen(n: int) -> Generator[int, None, None]:
+def prime_gen(n: int) -> int:
     primes = 0
     num = 2
     while primes < n:
@@ -21,7 +21,7 @@ def prime_gen(n: int) -> Generator[int, None, None]:
         num += 1
 
 
-def game_event_generator(events_number: int) -> Generator[str, None, None]:
+def game_event_generator(events_number: int) -> str:
     GAME_DB = {
         1: {"name": "alice", "level": 5, "action": "killed monster"},
         2: {"name": "bob", "level": 12, "action": "found treasure"},
