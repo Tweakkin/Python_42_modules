@@ -19,8 +19,8 @@ def  main() -> None:
 	
 	try:
 		print("\nSECURE PRESERVATION:")
-		with open("../data_samples/classified_data.txt", 'a')  as file:
-			file.write("\n[CLASSIFIED] New security protocols archived")
+		with open("../data_samples/classified_data.txt", 'w')  as file:
+			file.write("[CLASSIFIED] New security protocols archived")
 			print("[CLASSIFIED] New security protocols archived")
 		if file.closed:
 			print("Vault automatically sealed upon completion")
