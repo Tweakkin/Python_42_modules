@@ -42,11 +42,18 @@ class SensorStream(DataStream):
                     continue
             except (ValueError, IndexError):
                 continue
+            
+        if not temp_val:
+             return f"Sensor analysis: {len(valid_val)} readings processed, but no temperature data found."
+        
         if not valid_val:
             return f"Sensor analysis: 0 readings processed"
         
         avg = sum(temp_val) / len(temp_val)
-
+        if avg < -20:
+            return f"Sensor analysis: {len(valid_val)} readings processed, avg temp: {avg:.1f}°C, Warning temp is too low!"
+        elif avg > 50:
+            return f"Sensor analysis: {len(valid_val)} readings processed, avg temp: {avg:.1f}°C, Warning temp is too high!"
         return f"Sensor analysis: {len(valid_val)} readings processed, avg temp: {avg:.1f}°C"
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
@@ -119,6 +126,23 @@ class EventStream(DataStream):
             "type": "System Events"
         }
 
+class StreamProcessor:
+    def __init__(self) -> None:
+        self.streams = {}
+    
+    def add_stream(self, stream: DataStream) -> None:
+        if stream.stream_id in self.streams:
+            print(f"Error: Stream {stream.stream_id} already exists.")
+            return
+        self.streams[stream.stream_id] = stream
+    
+    def process_stream_data(self, stream_id: str, data_batch: List[Any]) -> str:
+        if stream_id not in self.streams:
+            return f"Error: Stream {stream_id} not found."
+        stream = self.streams[stream_id]
+        return stream.process_batch(data_batch)
+    
+
 def main() -> None:
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
 
@@ -146,7 +170,44 @@ def main() -> None:
     print(proc_e.process_batch(data3))
 
     print("\n=== Polymorphic Stream Processing ===")
-    print("Processing mixed stream types through unified interface...")
+    print("Processing mixed stream types through unified interface...\n")
+    main_proc = StreamProcessor()
+
+    main_proc.add_stream(SensorStream("SENSOR_001"))
+    main_proc.add_stream(TransactionStream("TRANS_001"))
+    main_proc.add_stream(EventStream("EVENT_001"))
+
+    stream_data = [
+        ("SENSOR_001", data),
+        ("TRANS_001",   data2),
+        ("EVENT_001",  data3)
+    ]
+
+    print("Batch 1 Results:")
+    for id, dat in stream_data:
+        print(f"- {main_proc.process_stream_data(id, dat)}")
+    
+
+    print("\nStream filtering active: High-priority data only")
+    mixed_data_s = [
+        "temp:20", 
+        "critical:overheat",
+        "critical:power_loss",
+        "temp:22"
+    ]
+    mixed_data_t = [
+        "buy:10", 
+        "buy:50000",
+        "sell:20"
+    ]
+    obj_sens = SensorStream("SENSOR_002")
+    obj_trans = TransactionStream("TRANS_001")
+    filtered_s = obj_sens.filter_data(mixed_data_s, "critical")
+    filtered_t = obj_trans.filter_data(mixed_data_t, "50000")
+
+    print(f"Filtered results: {len(filtered_s)} critical sensor alerts, {len(filtered_t)} large transaction")
+
+    print("All streams processed successfully. Nexus throughput optimal.")
 
 if __name__ == "__main__":
     main()
