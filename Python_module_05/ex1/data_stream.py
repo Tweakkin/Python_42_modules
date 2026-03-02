@@ -1,16 +1,21 @@
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict, Union, Optional
 
+
 class DataStream(ABC):
 
     def __init__(self, stream_id: str) -> None:
         self.stream_id = stream_id
-    
+
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
         pass
-    
-    def filter_data(self, data_batch: List[Any], criteria: Optional[str] = None) -> List[Any]:
+
+    def filter_data(
+        self,
+        data_batch: List[Any],
+        criteria: Optional[str] = None
+    ) -> List[Any]:
         if not isinstance(data_batch, list):
             return []
         if criteria is None:
@@ -21,9 +26,10 @@ class DataStream(ABC):
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {
-            "stream_id" : self.stream_id,
+            "stream_id": self.stream_id,
             "type": "Generic DataStream"
             }
+
 
 class SensorStream(DataStream):
 
@@ -42,25 +48,49 @@ class SensorStream(DataStream):
                     continue
             except (ValueError, IndexError):
                 continue
-            
+
         if not temp_val:
-             return f"Sensor analysis: {len(valid_val)} readings processed, but no temperature data found."
-        
+            msg = (f"Sensor analysis: {len(valid_val)}"
+                   " readings processed,"
+                   " but no temperature data found.")
+            return msg
+
         if not valid_val:
-            return f"Sensor analysis: 0 readings processed"
-        
+            return "Sensor analysis: 0 readings processed"
+
         avg = sum(temp_val) / len(temp_val)
         if avg < -20:
-            return f"Sensor analysis: {len(valid_val)} readings processed, avg temp: {avg:.1f}°C, Warning temp is too low!"
+            return (f"Sensor analysis: {len(valid_val)}"
+                    f" readings processed, avg temp:"
+                    f" {avg:.1f}°C, Warning temp"
+                    " is too low!")
         elif avg > 50:
-            return f"Sensor analysis: {len(valid_val)} readings processed, avg temp: {avg:.1f}°C, Warning temp is too high!"
-        return f"Sensor analysis: {len(valid_val)} readings processed, avg temp: {avg:.1f}°C"
+            return (f"Sensor analysis: {len(valid_val)}"
+                    f" readings processed, avg temp:"
+                    f" {avg:.1f}°C, Warning temp"
+                    " is too high!")
+        return (f"Sensor analysis: {len(valid_val)}"
+                f" readings processed,"
+                f" avg temp: {avg:.1f}°C")
+
+    def filter_data(
+        self,
+        data_batch: List[Any],
+        criteria: Optional[str] = None
+    ) -> List[Any]:
+        if criteria == "critical":
+            return [
+                item for item in data_batch
+                if str(item).startswith("critical:")
+            ]
+        return super().filter_data(data_batch, criteria)
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {
             "stream_id": self.stream_id,
             "type": "Environmental Data"
         }
+
 
 class TransactionStream(DataStream):
 
@@ -84,18 +114,33 @@ class TransactionStream(DataStream):
             except (ValueError, IndexError):
                 continue
         if not valid_val:
-            return f"Transaction analysis: 0 readings processed"
-        
+            return "Transaction analysis: 0 readings processed"
+
         net = int(sum(buy_val)-sum(sell_val))
         net_str = f"+{net}" if net > 0 else f"{net}"
 
-        return f"Transaction analysis: {len(valid_val)} operations, net flow: {net_str} units"
+        return (f"Transaction analysis:"
+                f" {len(valid_val)} operations,"
+                f" net flow: {net_str} units")
+
+    def filter_data(
+        self,
+        data_batch: List[Any],
+        criteria: Optional[str] = None
+    ) -> List[Any]:
+        if criteria == "50000":
+            return [
+                item for item in data_batch
+                if f":{criteria}" in str(item)
+            ]
+        return super().filter_data(data_batch, criteria)
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {
             "stream_id": self.stream_id,
             "type": "Financial Data"
         }
+
 
 class EventStream(DataStream):
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -105,7 +150,7 @@ class EventStream(DataStream):
             try:
                 if not item:
                     continue
-                
+
                 str_item = str(item).strip()
                 if not str_item:
                     continue
@@ -116,9 +161,22 @@ class EventStream(DataStream):
                 continue
 
         if not valid_val:
-            return f"Event analysis: 0 readings processed"
+            return "Event analysis: 0 readings processed"
 
-        return f"Event analysis: {len(valid_val)} events, {len(err)} error detected"
+        return (f"Event analysis: {len(valid_val)}"
+                f" events, {len(err)} error detected")
+
+    def filter_data(
+        self,
+        data_batch: List[Any],
+        criteria: Optional[str] = None
+    ) -> List[Any]:
+        if criteria == "error":
+            return [
+                item for item in data_batch
+                if criteria in str(item).lower()
+            ]
+        return super().filter_data(data_batch, criteria)
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {
@@ -126,29 +184,35 @@ class EventStream(DataStream):
             "type": "System Events"
         }
 
+
 class StreamProcessor:
     def __init__(self) -> None:
-        self.streams = {}
-    
+        self.streams: Dict[str, DataStream] = {}
+
     def add_stream(self, stream: DataStream) -> None:
         if stream.stream_id in self.streams:
             print(f"Error: Stream {stream.stream_id} already exists.")
             return
         self.streams[stream.stream_id] = stream
-    
-    def process_stream_data(self, stream_id: str, data_batch: List[Any]) -> str:
+
+    def process_stream_data(
+        self, stream_id: str,
+        data_batch: List[Any]
+    ) -> str:
         if stream_id not in self.streams:
             return f"Error: Stream {stream_id} not found."
         stream = self.streams[stream_id]
         return stream.process_batch(data_batch)
-    
+
 
 def main() -> None:
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
 
     print("Initializing Sensor Stream...")
     proc = SensorStream("SENSOR_001")
-    print(f"Stream Id: {proc.get_stats()['stream_id']}, Type: {proc.get_stats()['type']}")
+    stat = proc.get_stats()
+    print(f"Stream Id: {stat['stream_id']},"
+          f" Type: {stat['type']}")
     data = ["temp:22.5", "humidity:65", "pressure:1013"]
     print(f"Processing sensor batch: {data}")
     print(proc.process_batch(data))
@@ -186,17 +250,16 @@ def main() -> None:
     print("Batch 1 Results:")
     for id, dat in stream_data:
         print(f"- {main_proc.process_stream_data(id, dat)}")
-    
 
     print("\nStream filtering active: High-priority data only")
     mixed_data_s = [
-        "temp:20", 
+        "temp:20",
         "critical:overheat",
         "critical:power_loss",
         "temp:22"
     ]
     mixed_data_t = [
-        "buy:10", 
+        "buy:10",
         "buy:50000",
         "sell:20"
     ]
@@ -205,9 +268,12 @@ def main() -> None:
     filtered_s = obj_sens.filter_data(mixed_data_s, "critical")
     filtered_t = obj_trans.filter_data(mixed_data_t, "50000")
 
-    print(f"Filtered results: {len(filtered_s)} critical sensor alerts, {len(filtered_t)} large transaction")
+    print(f"Filtered results: {len(filtered_s)}"
+          f" critical sensor alerts,"
+          f" {len(filtered_t)} large transaction")
 
-    print("All streams processed successfully. Nexus throughput optimal.")
+    print("\nAll streams processed successfully. Nexus throughput optimal.")
+
 
 if __name__ == "__main__":
     main()
