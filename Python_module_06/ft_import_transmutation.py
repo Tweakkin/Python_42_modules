@@ -11,6 +11,7 @@ from alchemy.potions import healing_potion as heal
 from alchemy.elements import create_earth, create_fire
 from alchemy.potions import strength_potion
 
+
 def main():
     print("=== Import Transmutation Mastery ===\n")
 
@@ -29,6 +30,7 @@ def main():
     print(f"strength_potion(): {strength_potion()}")
 
     print("\nAll import transmutation methods mastered!")
+
 
 if __name__ == "__main__":
     main()

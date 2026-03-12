@@ -1,6 +1,7 @@
 # ABSOLUTE import: full path from the top-level package
 from alchemy.elements import create_fire, create_earth
 
+
 def lead_to_gold():
     fire_result = create_fire()
     return f"Lead transmuted to gold using {fire_result}"
