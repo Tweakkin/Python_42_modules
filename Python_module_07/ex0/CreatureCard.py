@@ -1,4 +1,4 @@
-from ex0.Card import Card, Rarity
+from ex0.Card import Card, Rarity, CardType
 from typing import Union
 
 class CreatureCard(Card):
@@ -8,7 +8,7 @@ class CreatureCard(Card):
             super().__init__(name, cost, rarity)
             self.health: int = max(1, int(health))
             self.attack:  int = max(1, int(attack))
-            self.type = "Creature"
+            self.type = CardType.CREATURE.value
         except (ValueError, TypeError):
             super().__init__(name, cost, rarity)
             self.attack = 1

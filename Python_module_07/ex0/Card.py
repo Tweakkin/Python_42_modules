@@ -2,6 +2,11 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Union
 
+class CardType(Enum):
+    CREATURE = "Creature"
+    SPELL = "Spell"
+    ARTIFACT = "Artifact"
+
 class Rarity(Enum):
     COMMON = "Common"
     UNCOMMON = "Uncommon"
