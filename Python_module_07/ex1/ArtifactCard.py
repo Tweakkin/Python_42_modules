@@ -1,4 +1,4 @@
-from ex0.Card import Card, Rarity
+from ex0.Card import Card, Rarity, CardType
 from typing import Union
 
 class ArtifactCard(Card):
@@ -9,7 +9,7 @@ class ArtifactCard(Card):
             self.durability: int = max(1, int(durability))
             self.effect: str = str(effect)
             self.is_active: bool = False
-            self.type = "Artifact"
+            self.type = CardType.ARTIFACT.value
         except:
             super().__init__(name, cost)
             self.durability = 1

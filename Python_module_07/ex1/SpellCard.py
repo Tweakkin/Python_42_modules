@@ -1,4 +1,4 @@
-from ex0.Card import Card, Rarity
+from ex0.Card import Card, Rarity, CardType
 from typing import Union
 
 class SpellCard(Card):
@@ -10,7 +10,7 @@ class SpellCard(Card):
             valid_types: list = ["damage", "heal", "buff", "debuff"]
             self.effect_type: str = effect_type if effect_type in valid_types \
                 else "damage"
-            self.type = "Spell"
+            self.type = CardType.SPELL.value
         except Exception:
             super.__init__(name, cost, rarity)
             self.effect_type = "damage"
