@@ -1,14 +1,11 @@
-from ex0.Card import Card, Rarity
+from ex0.Card import Rarity
 from ex0.CreatureCard import CreatureCard
+
 
 def main() -> None:
     print("=== DataDeck Card Foundation ===\n")
 
     print("Testing Abstract Base Class Design:\n")
-    try:
-        abstract_card = Card("Test", 1, "Common")
-    except TypeError as e:
-        pass
 
     dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
 
@@ -31,7 +28,6 @@ def main() -> None:
     print(f"Playable: {dragon.is_playable(3)}")
 
     print("\nAbstract pattern successfully demonstrated!")
-
 
 
 if __name__ == "__main__":

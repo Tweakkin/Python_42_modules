@@ -3,6 +3,7 @@ from ex2.Combatable import Combatable
 from ex2.Magical import Magical
 from typing import Union
 
+
 class EliteCard(Card, Combatable, Magical):
 
     def __init__(self, name: str, cost: int, rarity: Union[str, Rarity],
@@ -16,12 +17,12 @@ class EliteCard(Card, Combatable, Magical):
             self.mana_pool: int = mana_pool
             self.armor: int = 2
         except (ValueError, TypeError):
-            super.__init__(name, cost, rarity)
+            super().__init__(name, cost, rarity)
             self.attack_power = 1
             self.health = 1
             self.mana_pool = 0
             self.armor = 2
-    
+
     # Card interface implementation
     def play(self, game_state: dict) -> dict:
         try:
@@ -39,7 +40,7 @@ class EliteCard(Card, Combatable, Magical):
             }
         except Exception as e:
             return {"error": f"Failed to play {self.name}: {str(e)}"}
-        
+
     def get_card_info(self) -> dict:
         """Override to include elite card stats."""
         try:
@@ -51,10 +52,9 @@ class EliteCard(Card, Combatable, Magical):
         except Exception as e:
             return {"error": f"Failed to get card info: {str(e)}"}
 
-
     # Combatable interface implementation
 
-    def attack(self, target) -> dict:
+    def attack(self, target: object) -> dict:
         """ Implement Combatable's abstract attack method. """
         try:
             target_name: str = target.name if hasattr(target, "name") \
@@ -67,7 +67,7 @@ class EliteCard(Card, Combatable, Magical):
             }
         except Exception as e:
             return {"error": f"Attack failed: {str(e)}"}
-    
+
     def defend(self, incoming_damage: int) -> dict:
         """ Implement Combatable's abstract defend method. """
         try:
@@ -83,7 +83,7 @@ class EliteCard(Card, Combatable, Magical):
             }
         except Exception as e:
             return {"error": f"Defense failed: {str(e)}"}
-    
+
     def get_combat_stats(self) -> dict:
         """Implement Combatable's abstract get_combat_stats method."""
         try:
@@ -94,7 +94,7 @@ class EliteCard(Card, Combatable, Magical):
             }
         except Exception as e:
             return {"error": f"Failed to get combat stats: {str(e)}"}
-    
+
     # Magical interface implementation
 
     def cast_spell(self, spell_name: str, targets: list) -> dict:
@@ -112,7 +112,7 @@ class EliteCard(Card, Combatable, Magical):
             target_names: list = []
             for t in targets:
                 target_names.append(t if isinstance(t, str) else str(t))
-            
+
             return {
                 "caster": self.name,
                 "spell": spell_name,
@@ -121,7 +121,7 @@ class EliteCard(Card, Combatable, Magical):
             }
         except Exception as e:
             return {"error": f"Spell cast failed: {str(e)}"}
-    
+
     def channel_mana(self, amount: int) -> dict:
         """ Implement Magical's abstract channel_mana method. """
         try:
@@ -133,13 +133,14 @@ class EliteCard(Card, Combatable, Magical):
             }
         except Exception as e:
             return {"error": f"Mana channeling failed: {str(e)}"}
-    
+
     def get_magic_stats(self) -> dict:
         """Implement Magical's abstract get_magic_stats method."""
         try:
             return {
                 "mana_pool": self.mana_pool,
-                "spell_power": self.attack_power  # Elite cards use attack as spell power too
+                # Elite cards use attack as spell power too
+                "spell_power": self.attack_power
             }
         except Exception as e:
             return {"error": f"Failed to get magic stats: {str(e)}"}

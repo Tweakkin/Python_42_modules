@@ -5,12 +5,13 @@ from ex0.CreatureCard import CreatureCard
 from ex1.SpellCard import SpellCard
 from ex1.ArtifactCard import ArtifactCard
 
+
 class FantasyCardFactory(CardFactory):
     def create_creature(self,
                         name_or_power: str | int | None = None) -> Card:
         try:
             if isinstance(name_or_power, str):
-                creatures: dict = {
+                creatures: dict[str, CreatureCard] = {
                     "dragon": CreatureCard("Fire Dragon", 5,
                                            Rarity.LEGENDARY, 7, 5),
                     "goblin": CreatureCard("Goblin Warrior", 2,
@@ -25,14 +26,14 @@ class FantasyCardFactory(CardFactory):
                 return CreatureCard("Fantasy Creature", power,
                                     Rarity.RARE, power + 2, power + 1)
             return CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
-        except Exception as e:
+        except Exception:
             return CreatureCard("Default Creature", 1, Rarity.COMMON, 1, 1)
 
     def create_spell(self,
                      name_or_power: str | int | None = None) -> Card:
         try:
             if isinstance(name_or_power, str):
-                spells: dict = {
+                spells: dict[str, SpellCard] = {
                     "fireball": SpellCard("Fireball", 4, Rarity.RARE,
                                           "damage"),
                     "heal": SpellCard("Healing Light", 3, Rarity.COMMON,
@@ -47,18 +48,18 @@ class FantasyCardFactory(CardFactory):
 
             if isinstance(name_or_power, int):
                 power: int = max(1, name_or_power)
-                return SpellCard("Arcane Blast", power, Rarity.Rare,
+                return SpellCard("Arcane Blast", power, Rarity.RARE,
                                  "damage")
 
             return SpellCard("Fireball", 4, Rarity.RARE, "damage")
-        except Exception as e:
+        except Exception:
             return SpellCard("Default Spell", 1, Rarity.COMMON, "damage")
 
     def create_artifact(self,
                         name_or_power: str | int | None = None) -> Card:
         try:
             if isinstance(name_or_power, str):
-                artifacts: dict = {
+                artifacts: dict[str, ArtifactCard] = {
                     "mana_ring": ArtifactCard("Mana Ring", 2, Rarity.EPIC,
                                               5, "+2 mana per turn"),
                     "staff": ArtifactCard("Crystal Staff", 4,
@@ -80,7 +81,7 @@ class FantasyCardFactory(CardFactory):
 
             return ArtifactCard("Mana Ring", 2, Rarity.EPIC, 5,
                                 "+2 mana per turn")
-        except Exception as e:
+        except Exception:
             return ArtifactCard("Default Artifact", 1, Rarity.COMMON, 1,
                                 "No effect")
 

@@ -1,5 +1,7 @@
+from typing import Optional
 from ex3.CardFactory import CardFactory
 from ex3.GameStrategy import GameStrategy
+
 
 class GameEngine:
     """
@@ -10,9 +12,10 @@ class GameEngine:
     It doesn't decide how to play — it asks the strategy.
     It just CONNECTS the two and keeps track of what happened.
     """
+
     def __init__(self) -> None:
-        self.factory: CardFactory = None
-        self.strategy: GameStrategy = None
+        self.factory: Optional[CardFactory] = None
+        self.strategy: Optional[GameStrategy] = None
         self.hand: list = []          # Cards in the player's hand
         self.battlefield: list = []   # Cards on the field
         self.turns_played: int = 0    # How many turns have been simulated

@@ -1,11 +1,14 @@
+from typing import Union
 from ex0.Card import Card, Rarity
 from ex2.Combatable import Combatable
 from ex4.Rankable import Rankable
 
+
 class TournamentCard(Card, Combatable, Rankable):
-	"""
+    """
     A card that can be played, can fight, AND can be ranked.
-	"""
+    """
+
     def __init__(self, name: str, cost: int, rarity: Union[str, Rarity],
                  attack: int, health: int) -> None:
         try:
@@ -33,8 +36,8 @@ class TournamentCard(Card, Combatable, Rankable):
             self.wins = 0
             self.losses = 0
             self.rating = 1200
-	
-	# Card interface
+
+    # Card interface
 
     def play(self, game_state: dict) -> dict:
         """Implement Card's abstract play() method."""
@@ -66,9 +69,9 @@ class TournamentCard(Card, Combatable, Rankable):
         except Exception as e:
             return {"error": f"Failed to get card info: {str(e)}"}
 
-	# Combatable interface
+    # Combatable interface
 
-    def attack(self, target) -> dict:
+    def attack(self, target: object) -> dict:
         """
         Implement Combatable's abstract attack() method.
 
@@ -128,7 +131,7 @@ class TournamentCard(Card, Combatable, Rankable):
         except Exception as e:
             return {"error": f"Failed to get combat stats: {str(e)}"}
 
-	# Rankable Interface
+    # Rankable Interface
     def calculate_rating(self) -> int:
         """
         Implement Rankable's abstract calculate_rating() method.
@@ -147,7 +150,7 @@ class TournamentCard(Card, Combatable, Rankable):
         try:
             self.rating = 1200 + (self.wins * 16) - (self.losses * 16)
             return self.rating
-        except Exception as e:
+        except Exception:
             return self.rating
 
     def update_wins(self, wins: int) -> None:
@@ -162,7 +165,7 @@ class TournamentCard(Card, Combatable, Rankable):
             self.calculate_rating()  # Recalculate after updating
         except (ValueError, TypeError):
             pass
-		
+
     def update_losses(self, losses: int) -> None:
         """
         Implement Rankable's abstract update_losses() method.
@@ -189,7 +192,7 @@ class TournamentCard(Card, Combatable, Rankable):
         except Exception as e:
             return {"error": f"Failed to get rank info: {str(e)}"}
 
-	# TournamentCard's own method not inherited
+    # TournamentCard's own method not inherited
     def get_tournament_stats(self) -> dict:
         """
         Get complete tournament statistics.

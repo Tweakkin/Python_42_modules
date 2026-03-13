@@ -1,8 +1,10 @@
+from typing import Optional
 from ex4.TournamentCard import TournamentCard
+
 
 class TournamentPlatform:
 
-	def __init__(self) -> None:
+    def __init__(self) -> None:
         """Initialize an empty tournament platform."""
         self.cards: dict = {}
         self.matches_played: int = 0
@@ -63,8 +65,12 @@ class TournamentPlatform:
         """
         try:
             # Look up the cards
-            card1: TournamentCard = self.cards.get(card1_id, None)
-            card2: TournamentCard = self.cards.get(card2_id, None)
+            card1: Optional[TournamentCard] = self.cards.get(
+                card1_id, None
+            )
+            card2: Optional[TournamentCard] = self.cards.get(
+                card2_id, None
+            )
 
             # Validate both cards exist
             if card1 is None:
@@ -121,7 +127,7 @@ class TournamentPlatform:
         """
         try:
 
-            def get_rating(x):
+            def get_rating(x: tuple[str, TournamentCard]) -> int:
                 return x[1].rating
 
             sorted_cards: list = sorted(

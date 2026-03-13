@@ -1,6 +1,7 @@
 from ex0.Card import Card, Rarity, CardType
 from typing import Union
 
+
 class CreatureCard(Card):
     def __init__(self, name: str, cost: int, rarity: Union[str, Rarity],
                  attack: int, health: int) -> None:
@@ -14,6 +15,7 @@ class CreatureCard(Card):
             self.attack = 1
             self.health = 1
             self.type = "Creature"
+
     def play(self, game_state: dict) -> dict:
         try:
             available_mana: int = game_state.get("mana", 0)
@@ -31,7 +33,7 @@ class CreatureCard(Card):
             }
         except Exception as e:
             return {"Error": f"Failed to play {self.name}: {str(e)}"}
-    
+
     def get_card_info(self) -> dict:
         try:
             info: dict = super().get_card_info()
@@ -40,8 +42,8 @@ class CreatureCard(Card):
             return info
         except Exception as e:
             return {"Error": f"Failed to get card info {str(e)}"}
-    
-    def attack_target(self, target) -> dict:
+
+    def attack_target(self, target: object) -> dict:
         try:
             target_name: str = target.name if hasattr(target, "name") \
                 else str(target)

@@ -44,10 +44,11 @@ def main() -> None:
 
     # Game report
     report: dict = engine.get_engine_status()
-    print(f"Game Report:")
+    print("Game Report:")
     print(report)
 
     print("Abstract Factory + Strategy Pattern: Maximum flexibility achieved!")
+
 
 if __name__ == "__main__":
     main()

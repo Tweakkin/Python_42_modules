@@ -4,6 +4,7 @@ from ex1.ArtifactCard import ArtifactCard
 from ex1.Deck import Deck
 from ex0.Card import Rarity
 
+
 def main() -> None:
     print("=== DataDeck Deck Builder ===")
     print()
@@ -11,7 +12,8 @@ def main() -> None:
     # Create different card types
     dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
     bolt = SpellCard("Lightning Bolt", 3, Rarity.RARE, "damage")
-    crystal = ArtifactCard("Mana Crystal", 2, Rarity.COMMON, 3, "+1 mana per turn")
+    crystal = ArtifactCard(
+        "Mana Crystal", 2, Rarity.COMMON, 3, "+1 mana per turn")
 
     # Build a DECK
     print("Building deck with different card types...")
@@ -35,12 +37,13 @@ def main() -> None:
         card = deck.draw_card()
         if card is None:
             break
-        print(f"Drew: {card.name} ({card.type})")
+        print(f"Drew: {card.name} ({getattr(card, 'type', 'Unknown')})")
         result: dict = card.play(game_state)
         print(f"Play result: {result}")
         print()
 
     print("Polymorphism in action: Same interface, different card behaviors!")
+
 
 if __name__ == "__main__":
     main()
