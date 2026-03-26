@@ -1,8 +1,17 @@
+"""
+This module models and validates space station data using Pydantic.
+"""
+
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field, ValidationError
 
+
 class SpaceStation(BaseModel):
+    """
+    Represents a space station.
+    Validates all fields to ensure they meet the required
+    """
     station_id: str = Field(min_length=3, max_length=10)
     name: str = Field(min_length=1, max_length=50)
     crew_size: int = Field(ge=1, le=20)
@@ -12,12 +21,13 @@ class SpaceStation(BaseModel):
     is_operational: bool = True
     notes: Optional[str] = Field(default=None, max_length=200)
 
-def main():
+
+def main() -> None:
     print("Space Station Data Validation")
     print("========================================")
 
     try:
-        station = SpaceStation(
+        station: SpaceStation = SpaceStation(
             station_id="ISS001",
             name="International Space Station",
             crew_size=6,
@@ -31,14 +41,15 @@ def main():
         print(f"Crew: {station.crew_size} people")
         print(f"Power: {station.power_level}%")
         print(f"Oxygen: {station.oxygen_level}%")
-        print(f"Status: {'Operational' if station.is_operational else 'Offline'}")
+        status: str = 'Operational' if station.is_operational else 'Offline'
+        print(f"Status: {status}")
     except ValidationError as e:
         print(e)
-        
+
     print("\n========================================")
-    
+
     try:
-        invalid_station = SpaceStation(
+        SpaceStation(
             station_id="ISS002",
             name="Invalid Space Station",
             crew_size=25,  # This will trigger a validation error
@@ -49,6 +60,7 @@ def main():
     except ValidationError as e:
         print("Expected validation error:")
         print(e.errors()[0]['msg'])
+
 
 if __name__ == "__main__":
     main()
