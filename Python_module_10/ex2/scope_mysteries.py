@@ -28,7 +28,7 @@ def memory_vault() -> dict:
     memory = {}
 
     def store(key, value):
-         memory[key] = value
+        memory[key] = value
 
     def recall(key):
         return memory.get(key, "Memory not found")
