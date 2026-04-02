@@ -1,3 +1,9 @@
+"""
+This exercise is about learning lambda functions and Python's
+functional built-ins.
+"""
+
+
 def artifact_sorter(artifacts: list[dict]) -> list[dict]:
     return sorted(artifacts, key=lambda a: a['power'], reverse=True)
 
@@ -38,23 +44,23 @@ def main() -> None:
     spells = ["fireball", "heal", "shield"]
     print(*spell_transformer(spells))
 
-    mages = [
-        {'name': 'Aldric', 'power': 90, 'element': 'fire'},
-        {'name': 'Serana', 'power': 55, 'element': 'water'},
-        {'name': 'Toryn',  'power': 75, 'element': 'earth'},
-    ]
+    # mages = [
+    #     {'name': 'Aldric', 'power': 90, 'element': 'fire'},
+    #     {'name': 'Serana', 'power': 55, 'element': 'water'},
+    #     {'name': 'Toryn',  'power': 75, 'element': 'earth'},
+    # ]
 
-    print("\nTesting power filter...")
-    strong_mages = power_filter(mages, 70)
-    print(f"Mages with power >= 70: {[m['name'] for m in strong_mages]}")
+    # print("\nTesting power filter...")
+    # strong_mages = power_filter(mages, 70)
+    # print(f"Mages with power >= 70: {[m['name'] for m in strong_mages]}")
 
-    print("\nTesting mage stats...")
-    stats = mage_stats(mages)
-    print(
-        f"Max power: {stats['max_power']},"
-        f" Min power: {stats['min_power']},"
-        f" Avg power: {stats['avg_power']}"
-    )
+    # print("\nTesting mage stats...")
+    # stats = mage_stats(mages)
+    # print(
+    #     f"Max power: {stats['max_power']},"
+    #     f" Min power: {stats['min_power']},"
+    #     f" Avg power: {stats['avg_power']}"
+    # )
 
 
 if __name__ == "__main__":

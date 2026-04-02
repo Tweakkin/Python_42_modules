@@ -1,4 +1,16 @@
+"""
+This exercise is about learning closures and variable scope
+specifically how inner functions can remember and modify variables
+from their enclosing function.
+"""
+
+
 def mage_counter() -> callable:
+    """
+    returns a counter function that remembers and increments
+    a count variable using nonlocal
+    """
+
     count = 0
 
     def counter():
@@ -9,6 +21,11 @@ def mage_counter() -> callable:
 
 
 def spell_accumulator(initial_power: int) -> callable:
+    """
+    returns a function that keeps a running total
+    modifying it with nonlocal each time it's called.
+    """
+
     total = initial_power
 
     def accumulate(amount):
@@ -19,12 +36,22 @@ def spell_accumulator(initial_power: int) -> callable:
 
 
 def enchantment_factory(enchantment_type: str) -> callable:
+    """
+    returns a function that remembers the enchantment_type string
+    (read-only closure, no nonlocal needed).
+    """
     def enchant(item_name):
         return f"{enchantment_type} {item_name}"
     return enchant
 
 
 def memory_vault() -> dict:
+    """
+     returns a dict of store/recall
+    functions that share access to a private memory
+    dict (mutable object, so no nonlocal needed either).
+    """
+
     memory = {}
 
     def store(key, value):

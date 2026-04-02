@@ -1,8 +1,19 @@
+"""
+This exercise is about learning the functools module
+Python's standard library for working with HOFs
+"""
+
 import functools
 import operator
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
+    """
+    uses functools.reduce() to combine a list of values
+    into a single result by repeatedly applying an operation
+    (add, multiply, max, min). Also uses the operator module
+    """
+
     ops = {
         "add": operator.add,
         "multiply": operator.mul,
@@ -13,6 +24,14 @@ def spell_reducer(spells: list[int], operation: str) -> int:
 
 
 def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
+    """
+    uses functools.partial() to create pre-configured versions of a
+    function with some arguments already filled in
+    (like "fire with power 50").
+    """
+
+    if not callable(base_enchantment):
+        raise TypeError("Argument must be callable!")
     return {
         'fire_enchant': functools.partial(
             base_enchantment, power=50, element='fire'
@@ -28,6 +47,12 @@ def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
 
 @functools.lru_cache()
 def memoized_fibonacci(n: int) -> int:
+    """
+    uses @functools.lru_cache() as a decorator to automatically
+    cache/memoize results
+    so recursive Fibonacci doesn't recompute the same values.
+    """
+
     if n <= 0:
         return 0
     elif n == 1:
@@ -36,6 +61,12 @@ def memoized_fibonacci(n: int) -> int:
 
 
 def spell_dispatcher() -> callable:
+    """
+    uses @functools.singledispatch to create a function
+    that behaves differently
+    depending on the type of its argument (int, str, list).
+    """
+
     @functools.singledispatch
     def cast_spell(spell):
         return "Unknown spell"
@@ -56,11 +87,14 @@ def spell_dispatcher() -> callable:
 
 
 if __name__ == "__main__":
-    print("\nTesting spell reducer...")
-    print(f"Sum: {spell_reducer([10, 20, 30, 40], 'add')}")
-    print(f"Product: {spell_reducer([10, 20, 30, 40], 'multiply')}")
-    print(f"Max: {spell_reducer([10, 20, 30, 40], 'max')}")
+    try:
+        print("\nTesting spell reducer...")
+        print(f"Sum: {spell_reducer([10, 20, 30, 40], 'add')}")
+        print(f"Product: {spell_reducer([10, 20, 30, 40], 'multiply')}")
+        print(f"Max: {spell_reducer([10, 20, 30, 40], 'max')}")
 
-    print("\nTesting memoized fibonacci...")
-    print(f"Fib(10): {memoized_fibonacci(10)}")
-    print(f"Fib(15): {memoized_fibonacci(15)}")
+        print("\nTesting memoized fibonacci...")
+        print(f"Fib(10): {memoized_fibonacci(10)}")
+        print(f"Fib(15): {memoized_fibonacci(15)}")
+    except TypeError as e:
+        print(f"Error: {e}")
